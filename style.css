@@ -1,0 +1,313 @@
+/* === Reset Básico e Box Model === */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* === Estilos Globais === */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #e0e0ff;
+  background: linear-gradient(to bottom right, #1a1a2e, #16213e);
+  line-height: 1.6;
+}
+
+/* === Área Principal (Main Content) === */
+.main-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* === Container do Jogo === */
+.game-container {
+  background-color: rgba(40, 42, 54, 0.85); /* #282a36 com alpha */
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+  max-width: 500px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* === Cabeçalho do Jogo === */
+.game-header {
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.game-header h1 {
+  /* font-family: 'Orbitron', Impact, sans-serif; */ /* Descomente se usar Orbitron */
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: 2rem;
+  color: #f8f8f2;
+}
+
+/* Destaques coloridos no título */
+.geek {
+  color: #50fa7b; /* Verde neon */
+}
+
+.code {
+  color: #ff79c6; /* Rosa neon */
+}
+
+/* === Tabuleiro (#chessboard) === */
+#chessboard {
+  display: grid;                      /* Layout de grade */
+  grid-template: repeat(8, 1fr) / repeat(8, 1fr); /* 8x8 grid */
+  /* width: 100%; */                  /* <= Comentado ou Removido */
+  /* max-width: 440px; */             /* <= Comentado ou Removido */
+  /* aspect-ratio: 1 / 1; */            /* <= Comentado ou Removido */
+
+  /* NOVAS LINHAS COM TAMANHO FIXO: */
+  width: 440px;                      /* Largura fixa em pixels */
+  height: 440px;                     /* Altura fixa em pixels */
+
+  /* Restante das propriedades mantidas: */
+  border-top: 3px solid #44475a;
+  border-right: 3px solid #44475a;
+  border-bottom: 3px solid #44475a;
+  border-left: 3px solid #44475a;
+  box-sizing: border-box;             /* Inclui borda no tamanho */
+  overflow: hidden;                   /* Esconde excessos */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+  margin-bottom: 20px;
+}
+
+/* === Casas do Tabuleiro (.square) === */
+.square {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: clamp(24px, 8vw, 36px); /* Tamanho responsivo para peças */
+  user-select: none;
+  transition: background-color 0.15s ease-in-out;
+  line-height: 1; /* Força altura da linha baseada apenas no font-size */
+  vertical-align: middle; /* Tenta alinhar o conteúdo consistentemente */
+  /* aspect-ratio NÃO é definido aqui, a grade cuida disso */
+}
+
+/* Cores das casas */
+.light {
+  background-color: #6272a4; /* Cinza azulado claro */
+}
+
+.dark {
+  background-color: #44475a; /* Cinza escuro */
+}
+
+/* Efeito de hover sutil */
+.square:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* === Peças (.piece) === */
+.piece {
+  cursor: grab; /* Indica que pode ser selecionado/clicado */
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+/* === Destaques de Movimento e Seleção === */
+/* Casas onde a peça selecionada pode mover */
+.highlight {
+  background-color: rgba(241, 250, 140, 0.65) !important; /* Amarelo translúcido */
+  box-shadow: inset 0 0 6px rgba(241, 250, 140, 0.9);
+  cursor: pointer; /* Indica clicável */
+}
+
+/* Último movimento feito pela IA */
+.ai-move {
+  background-color: rgba(255, 121, 198, 0.55) !important; /* Rosa translúcido */
+  transition: background-color 0.8s ease-out;
+}
+
+/* Casa da peça selecionada pelo jogador */
+.selected {
+   /* Usa outline para não afetar o layout */
+   outline: 3px solid #50fa7b; /* Verde neon */
+   outline-offset: -3px; /* Outline para dentro */
+}
+
+/* === Status do Jogo (#status) === */
+#status {
+  margin: 20px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #bd93f9; /* Roxo claro */
+  text-align: center;
+  min-height: 1.6em; /* Evita "pulos" quando o texto muda */
+}
+
+/* === Seletor de Dificuldade === */
+.difficulty-selector {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Alinha o texto "Dificuldade:" com os botões */
+  gap: 10px;
+  margin-bottom: 20px; /* Aumentado o espaço */
+  flex-wrap: wrap;
+}
+
+.difficulty-selector span {
+    color: #bd93f9; /* Cor Roxo claro para o texto */
+    font-weight: 600;
+}
+
+.difficulty-button {
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+  background-color: #44475a; /* Fundo padrão */
+  color: #e0e0ff;
+}
+
+.difficulty-button:hover {
+  background-color: #6272a4;
+  transform: translateY(-2px);
+}
+
+/* Botão de dificuldade ATIVO */
+.difficulty-button.active-difficulty {
+  background-color: #50fa7b; /* Verde Neon para ativo */
+  color: #1a1a2e;         /* Texto escuro para contraste */
+  border-color: #f8f8f2;  /* Borda branca para destaque */
+  font-weight: bold;
+  transform: translateY(0); /* Reseta a elevação */
+}
+
+/* === Botão de Controle (Reiniciar) === */
+.control-button {
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #1a1a2e;
+  background-color: #ff79c6; /* Rosa neon */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.control-button:hover {
+  background-color: #ff9fdf;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(255, 121, 198, 0.4);
+}
+
+.control-button:active {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(255, 121, 198, 0.3);
+}
+
+/* === Mensagem de Erro (#error) === */
+#error {
+    color: #ff5555; /* Vermelho */
+    margin-top: 15px;
+    display: none; /* JS controla a visibilidade */
+    font-weight: bold;
+    text-align: center;
+}
+
+/* === Rodapé (footer) === */
+footer {
+  background-color: #1a1a2e;
+  color: #6272a4;
+  padding: 20px 10px; /* Padding horizontal adicionado */
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: auto;
+  border-top: 1px solid #44475a;
+  flex-shrink: 0;
+}
+
+.footer-links {
+  margin-bottom: 10px;
+}
+
+.footer-links a {
+  color: #bd93f9;
+  text-decoration: none;
+  margin: 0 8px;
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: #ff79c6;
+}
+
+.footer-links span {
+  color: #44475a;
+  margin: 0 2px;
+}
+
+/* Estilos para spans .geek e .code no rodapé */
+footer .geek {
+  color: #50fa7b;
+  font-weight: bold;
+}
+footer .code {
+  color: #ff79c6;
+  font-weight: bold;
+}
+
+.copyright {
+  font-size: 0.85rem;
+}
+
+/* === Responsividade === */
+@media (max-width: 768px) {
+    .game-header h1 {
+        font-size: 1.8rem;
+    }
+    .game-container {
+        padding: 25px;
+    }
+}
+
+@media (max-width: 600px) {
+    body { padding: 0; } /* Remove padding do body em telas pequenas */
+    .main-content { padding: 20px 10px; } /* Padding principal ajustado */
+
+    .game-header h1 { font-size: 1.6rem; }
+    .game-container { padding: 20px 15px; max-width: 98%; }
+    #chessboard { /* Não precisa de max-width aqui, o container já limita */ }
+    .square { font-size: clamp(20px, 7.5vw, 30px); } /* Leve ajuste */
+    #status { font-size: 1rem; }
+    .difficulty-selector { gap: 8px; margin-bottom: 15px; }
+    .difficulty-button { padding: 7px 12px; font-size: 0.85rem; }
+    .control-button { padding: 10px 20px; font-size: 0.9rem; }
+    footer { font-size: 0.85rem; padding: 15px 5px; }
+    .footer-links a { margin: 0 5px; }
+}
+
+@media (max-width: 420px) {
+    .game-header h1 { font-size: 1.4rem; }
+    .game-container { padding: 15px 10px; }
+    .difficulty-selector span { display: none; } /* Esconde o texto "Dificuldade:" */
+    .difficulty-selector { justify-content: space-around; } /* Espalha os botões */
+    .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        line-height: 1.8;
+        gap: 0 10px; /* Espaço horizontal entre links */
+    }
+    .footer-links span { display: none; } /* Esconde separadores | */
+     .footer-links a { margin: 0 5px 8px 5px; } /* Margem inferior para quebra de linha */
+    .copyright { font-size: 0.8rem; }
+}
